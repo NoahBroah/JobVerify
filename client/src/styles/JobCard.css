@@ -1,0 +1,69 @@
+.job-card {
+    margin: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px #ddd;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: -webkit-fill-available;
+  }
+  
+  .job-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .job-card-title {
+    margin: 0;
+  }
+  
+  .job-card-company {
+    margin: 0;
+  }
+  
+  .job-card-body {
+    margin-top: 10px;
+  }
+  
+  .job-card-description {
+    font-size: 16px;
+  }
+  
+  .job-card-details {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+  }
+  
+  .job-card-label {
+    font-weight: bold;
+  }
+  
+  .job-card-location {
+    margin-right: 20px;
+  }
+  
+  .job-card-verified {
+    margin-left: 20px;
+  }
+  
+  .job-card-footer {
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .job-card-link {
+    text-decoration: none;
+    color: #337ab7;
+  }
+  
+  .job-card-link:hover {
+    text-decoration: underline;
+  }
+  
