@@ -21,10 +21,19 @@ function UserProfile({ jobs, setJobs }) {
         <h1>
           Welcome to your Profile, {user?.first_name} {user?.last_name}
         </h1>
+        <div>
+          <Link to="/edit_profile" className="btn btn-primary">
+            Edit Profile
+          </Link>
+            <Link to="/create_job" className="btn btn-primary">
+              Create New Job
+            </Link>
+        </div>
         <h3>You have {verifiedJobs.length} Verified Jobs!</h3>
       </div>
       <div className="user-profile">
       <div className="left-column">
+      <h3 className="verified-jobs"></h3>
         {unverifiedJobs.length > 0 ? (
           unverifiedJobs.map((job) => (
             <JobCardEmployees
@@ -38,17 +47,17 @@ function UserProfile({ jobs, setJobs }) {
           <p>No jobs found</p>
         )}
       </div>
+      <div className="right-column">
+        <h3 className="verified-jobs"></h3>
+        {verifiedJobs.length > 0 ? (
+          verifiedJobs.map((job) => (
+            <JobCardEmployees key={job.id} job={job} setJobs={setJobs} jobs={jobs} />
+          ))
+        ) : (
+          <p>No jobs found</p>
+        )}
       </div>
-
-      {/* <div>
-          <Link to="/edit_profile" className="btn btn-primary">
-            Edit Profile
-          </Link>
-            <Link to="/create_job" className="btn btn-primary">
-              Create New Job
-            </Link>
-        </div> */}
-      
+      </div>
     </div>
   );
 }

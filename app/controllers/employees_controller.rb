@@ -7,7 +7,6 @@ class EmployeesController < ApplicationController
             employee = Employee.create(employee_params)
             session[:user_id] = employee.id
             session[:is_employer] = 0
-            debugger
             if employee.valid?
                 render json: employee, status: :created
             else
@@ -28,7 +27,6 @@ class EmployeesController < ApplicationController
 
     def destroy
         employee = Employee.find_by(id: params[:id])
-        debugger
         if employee
             employee.delete
             head :no_content

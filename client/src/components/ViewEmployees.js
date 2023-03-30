@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "../styles/ViewEmployees.css";
+import EmployeeDetails from "./EmployeeDetails";
 
-function ViewEmployees() {
+function ViewEmployees({ jobs }) {
   const [employees, setEmployees] = useState([]);
   const [errors, setErrors] = useState([]);
+  const [selectedEmployee, setSelectedEmployee] = useState(null);
+
   useEffect(() => {
     fetch("/employees").then((resp) => {
       if (resp?.ok) {
@@ -13,12 +16,27 @@ function ViewEmployees() {
       }
     });
   }, []);
+
+  function handleClick(employee) {
+    setSelectedEmployee(employee);
+  }
+
+  function handleClose() {
+    setSelectedEmployee(null);
+  }
+
   return (
     <div>
-        <div><h1>People: </h1></div>
+      <div>
+        <h1>People: </h1>
+      </div>
       <div className="employee-list">
         {employees.map((employee) => (
-          <div key={employee.id} className="employee-card">
+          <div
+            key={employee.id}
+            className="employee-card"
+            onClick={() => handleClick(employee)}
+          >
             <div className="employee-card-header">
               <h2>
                 {employee.first_name} {employee.last_name}
@@ -28,6 +46,11 @@ function ViewEmployees() {
           </div>
         ))}
       </div>
+      {selectedEmployee && (
+        <div className="dropdown">
+          <EmployeeDetails employee={selectedEmployee} onClose={handleClose} jobs={jobs} />
+        </div>
+      )}
     </div>
   );
 }

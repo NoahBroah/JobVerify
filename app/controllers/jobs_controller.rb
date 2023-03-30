@@ -3,6 +3,7 @@ class JobsController < ApplicationController
     def create
         employee = current_user
         job = employee.jobs.create(job_params)
+        # debugger
         if job.valid? && (session[:is_employer] === 0)
             render json: job, status: :created
         else
@@ -35,6 +36,12 @@ class JobsController < ApplicationController
     private
 
     def job_params
-        params.permit(:company, :title, :description,)
-    end
+        params.permit(:company, :title, :description, :from_date, :to_date).transform_values do |value|
+            if value.is_a?(String) && value.match?(/^\d{4}-\d{2}$/)
+              Date.strptime(value, '%Y-%m')
+            else
+              value
+            end
+          end
+        end
 end

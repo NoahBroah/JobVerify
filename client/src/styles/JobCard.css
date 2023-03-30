@@ -66,4 +66,22 @@
   .job-card-link:hover {
     text-decoration: underline;
   }
+
+  .job-card {
+    position: relative;
+  }
   
+  .job-card-dates {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: grey;
+  }
+  
+  .job-card-small-text {
+    font-size: 1em;
+  }
+  
+  .job-card-italic {
+    font-style: italic;
+  }

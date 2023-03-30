@@ -8,16 +8,22 @@ const CreateNewJob = ({ jobs, setJobs }) => {
   const [company, setCompany] = useState("");
   const [description, setDescription] = useState("");
   const [verified, setVerified] = useState(false);
+  const [toDate, setToDate] = useState("");
+  const [fromDate, setFromDate] = useState("");
   const [errors, setErrors] = useState([]);
   const history = useHistory();
 
   function handleSubmit(e) {
     e.preventDefault();
+    console.log(toDate)
+    console.log(fromDate)
 
     const newJob = {
       company: company,
       title: title,
       description: description,
+      from_date: fromDate,
+      to_date: toDate
     };
 
     fetch("/jobs", {
@@ -27,6 +33,7 @@ const CreateNewJob = ({ jobs, setJobs }) => {
     })
       .then((resp) => resp.json())
       .then((newJob) => {
+        console.log(newJob)
         if (newJob?.errors) {
           setErrors([newJob.errors]);
           console.log("Yikes");
@@ -78,15 +85,32 @@ const CreateNewJob = ({ jobs, setJobs }) => {
           ></textarea>
         </div>
         <div className="form-group">
-          <textarea
-            id="todolist"
-            className="form-control"
-            name="todolist"
-            rows="10"
-            placeholder="Maintain your pending tasks"
-          ></textarea>
+          <label>Dates</label>
+          <div className="form-inline">
+            <label htmlFor="from-date" className="mr-2">
+              From:
+            </label>
+            <input
+              type="month"
+              id="from-date"
+              className="form-control mr-3"
+              value={fromDate}
+              onChange={(e) => setFromDate(e.target.value)}
+              required
+            />
+            <label htmlFor="to-date" className="mr-2">
+              To:
+            </label>
+            <input
+              type="month"
+              id="to-date"
+              className="form-control"
+              value={toDate}
+              onChange={(e) => setToDate(e.target.value)}
+              required
+            />
+          </div>
         </div>
-
         <button type="submit" className="btn btn-primary btn-block">
           Create Job
         </button>

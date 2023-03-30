@@ -11,7 +11,9 @@ function CompanyProfile({ jobs, setJobs }) {
 
   const companyJobs = jobs?.filter((job) => job?.company === user?.name)
 
-  const unverifiedJobs = companyJobs?.filter((job) => job?.company === user?.name);
+  console.log(companyJobs)
+
+  const unverifiedJobs = companyJobs?.filter((job) => job?.verifications <= 0);
   //    jobs.filter((job) => job.employee_id === user.id);
 
   const verifiedJobs = companyJobs?.filter(
@@ -35,7 +37,7 @@ function CompanyProfile({ jobs, setJobs }) {
         </div>
       <div className="left-column">
       <h3 className="verified-jobs">Unverified Jobs:</h3>
-        {unverifiedJobs.length <= 0 ? (
+        {unverifiedJobs.length > 0 ? (
           unverifiedJobs.map((job) => (
             <JobCardCompanies key={job.id} job={job} setJobs={setJobs} jobs={jobs} />
           ))

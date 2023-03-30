@@ -1,31 +1,47 @@
 .employee-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-  }
-  
-  .employee-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    background-color: white;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    padding: 1rem;
-  }
-  
-  .employee-card-header h1 {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-  }
-  
-  .employee-card-header h2 {
-    font-size: 1.2rem;
-    margin: 0;
-  }
-  
-  .employee-card-header h4 {
-    font-size: 0.8rem;
-    margin: 0;
-  }
-  
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.employee-card {
+  border: 1px solid gray;
+  padding: 10px;
+  margin: 10px;
+  cursor: pointer;
+  width: 200px;
+  height: 150px;
+}
+
+.employee-card:hover {
+  background-color: lightgray;
+}
+
+.employee-card-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.employee-details {
+  border: 1px solid gray;
+  padding: 10px;
+  margin: 10px;
+  background-color: white;
+  position: absolute;
+  top: 50px;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.close-button {
+  margin-bottom: 10px;
+  cursor: pointer;
+}
