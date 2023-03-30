@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import "../styles/JobCard.css";
 import { UserContext } from "../UserContext";
+import DOMPurify from "dompurify";
+
 
 const JobCardCompanies = ({ job, setJobs, jobs }) => {
   const [user] = useContext(UserContext);
@@ -40,15 +42,34 @@ const JobCardCompanies = ({ job, setJobs, jobs }) => {
     })
   }
 
+  const sanitizedDescription = DOMPurify.sanitize(job.description);
   return (
     <div className="job-card">
       <div className="job-card-header">
         <h2 className="job-card-title">{job.title}</h2>
-        <span> @ </span>
+        <span> at </span>
         <h3 className="job-card-company">{job.company}</h3>
+        <div className="job-card-dates">
+          <span className="job-card-small-text job-card-italic">
+            {new Date(job.from_date).toLocaleDateString("en-US", {
+              month: "short",
+              year: "numeric",
+            })}
+          </span>
+          <span> - </span>
+          <span className="job-card-small-text job-card-italic">
+            {new Date(job.to_date).toLocaleDateString("en-US", {
+              month: "short",
+              year: "numeric",
+            })}
+          </span>
+        </div>
       </div>
       <div className="job-card-body">
-        <div className="job-card-description">{job.description}</div>
+        <div
+          className="job-card-description"
+          dangerouslySetInnerHTML={{ __html: sanitizedDescription }}
+        ></div>
         <div className="job-card-details">
           <div className="job-card-verified">
             <span className="job-card-label">{job.employee.first_name}</span>
@@ -58,19 +79,18 @@ const JobCardCompanies = ({ job, setJobs, jobs }) => {
         </div>
       </div>
       <div className="job-card-footer">
-        
-          {job.verifications.length > 0 ? (
-            <div>
-              <h3>Verified</h3>
-            </div>
-          ) : (
-            <button
-              className="job-card-link"
-              onClick={() => handeVerifyClick(job.id)}
-            >
-              Verify Employment
-            </button>
-          )}
+        {job.verifications.length > 0 ? (
+          <div>
+            <h3>Verified</h3>
+          </div>
+        ) : (
+          <button
+            className="job-card-link"
+            onClick={() => handeVerifyClick(job.id)}
+          >
+            Verify Employment
+          </button>
+        )}
       </div>
     </div>
   );

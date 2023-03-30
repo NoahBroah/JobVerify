@@ -22,6 +22,7 @@ function CompanyProfile({ jobs, setJobs }) {
 
 
   return (
+    
     <div className="profile-container">
       <div className="profile-header">
         <div className="profile-content">

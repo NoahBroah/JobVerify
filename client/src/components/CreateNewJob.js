@@ -1,44 +1,45 @@
 import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
+import { EditorState, convertToRaw } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import draftToHtml from 'draftjs-to-html';
 
 import "../styles/CreateNewJob.css";
 
 const CreateNewJob = ({ jobs, setJobs }) => {
   const [title, setTitle] = useState("");
   const [company, setCompany] = useState("");
-  const [description, setDescription] = useState("");
   const [verified, setVerified] = useState(false);
   const [toDate, setToDate] = useState("");
   const [fromDate, setFromDate] = useState("");
   const [errors, setErrors] = useState([]);
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const history = useHistory();
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(toDate)
-    console.log(fromDate)
+    const contentState = editorState.getCurrentContent();
+  const contentHTML = draftToHtml(convertToRaw(contentState));
 
-    const newJob = {
-      company: company,
-      title: title,
-      description: description,
-      from_date: fromDate,
-      to_date: toDate
-    };
+  const newJob = {
+    company: company,
+    title: title,
+    description: contentHTML,
+    from_date: fromDate,
+    to_date: toDate
+  };
 
-    fetch("/jobs", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newJob),
-    })
-      .then((resp) => resp.json())
-      .then((newJob) => {
-        console.log(newJob)
+  fetch("/jobs", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(newJob),
+  })
+    .then((resp) => resp.json())
+    .then((newJob) => {
         if (newJob?.errors) {
           setErrors([newJob.errors]);
-          console.log("Yikes");
         } else {
-          console.log("hey");
           setJobs([...jobs, newJob]);
           history.push("/");
         }
@@ -75,35 +76,27 @@ const CreateNewJob = ({ jobs, setJobs }) => {
 
         <div className="form-group">
           <label>Description</label>
-          <textarea
-            className="form-control"
-            rows="3"
-            placeholder="Enter description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            required
-          ></textarea>
+          <Editor
+            editorState={editorState}
+            onEditorStateChange={setEditorState}
+            wrapperClassName="demo-wrapper"
+            editorClassName="demo-editor"
+            toolbarClassName="toolbar-class"
+          />
         </div>
+
         <div className="form-group">
           <label>Dates</label>
           <div className="form-inline">
-            <label htmlFor="from-date" className="mr-2">
-              From:
-            </label>
             <input
               type="month"
-              id="from-date"
               className="form-control mr-3"
               value={fromDate}
               onChange={(e) => setFromDate(e.target.value)}
               required
             />
-            <label htmlFor="to-date" className="mr-2">
-              To:
-            </label>
             <input
               type="month"
-              id="to-date"
               className="form-control"
               value={toDate}
               onChange={(e) => setToDate(e.target.value)}
